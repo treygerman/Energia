@@ -18,6 +18,6 @@ export CLASSPATH
 LD_LIBRARY_PATH=`pwd`/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
 
-export PATH="${APPDIR}/java/bin:${PATH}"
+export PATH="${APPDIR}/java/bin:${APPDIR}/hardware/tools:${PATH}"
 
 java -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel processing.app.Base

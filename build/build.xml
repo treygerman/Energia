@@ -355,6 +355,10 @@
     <copy todir="linux/work" file="linux/dist/energia" />
     <chmod perm="755" file="linux/work/energia" />
 
+    <copy todir="linux/work" file="linux/dist/README" />
+    <chmod perm="755" file="linux/work/README" />
+
+
     <copy todir="linux/work/hardware">
       <fileset dir="linux/dist" includes="tools/**" />
     </copy>

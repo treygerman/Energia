@@ -1,0 +1,6 @@
+*THIS IS A BETA VERSION OF ENERGIA FOR LINUX*
+july 2012, Peter Brier
+
+You need to build you GCC, using the build-mspgcc script in the hardware/tools directory/
+
+
