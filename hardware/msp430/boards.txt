@@ -44,3 +44,12 @@ lpmsp430fr5739.build.core=msp430
 lpmsp430fr5739.build.variant=fraunchpad
 
 ##############################################################
+olimexino.name=Olimexinow/ msp430f5510
+olimexino.upload.protocol=rf2500
+olimexino.upload.maximum_size=15872
+olimexino.build.mcu=msp430f5510
+olimexino.build.f_cpu=16000000L
+olimexino.build.core=msp430
+olimexino.build.variant=olimexino
+
+##############################################################

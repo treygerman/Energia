@@ -98,7 +98,7 @@ void initClocks(void)
 
 #ifdef __MSP430_HAS_CS__
     CSCTL0 = CSKEY;                // Enable Access to CS Registers
-  
+
     CSCTL2 &= ~SELM_7;             // Clear selected Main CLK Source
     CSCTL2 |= SELM__DCOCLK;        // Use DCO as Main Clock Source
     CSCTL3 &= ~(DIVM_3 | DIVS_3);  // clear DIVM Bits
@@ -120,6 +120,10 @@ void initClocks(void)
 //    CSCTL0 = 0;                    // Disable Access to CS Registers
 #endif // __MSP430_HAS_CS__
 
+#ifdef __MSP430_HAS_UCS__
+    /* Source MCLK and SMCLK from DCO. ACLK from VLO */
+    UCSCTL4 = SELM__DCOCLK | SELS__DCOCLK | SELA__VLOCLK;
+#endif // __MSP430_HAS_UCS__
 }
 volatile uint32_t wdtCounter = 0;
 
