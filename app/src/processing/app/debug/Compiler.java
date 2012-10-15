@@ -182,7 +182,13 @@ public class Compiler implements MessageConsumer {
       "rcs",
       runtimeLibraryName
     }));
-    } else {
+    } else  if(arch == "c2000"){
+      baseCommandAR = new ArrayList(Arrays.asList(new String[] {
+	    basePath + "ar2000",
+	    "-rs",
+	    runtimeLibraryName
+    }));
+    }else {
       baseCommandAR = new ArrayList(Arrays.asList(new String[] {
         basePath + "avr-ar",
         "rcs",
@@ -218,6 +224,14 @@ public class Compiler implements MessageConsumer {
         "-o",
         buildPath + File.separator + primaryClassName + ".elf"
       }));
+    } else if (arch == "c2000") { 
+        List objects = new ArrayList(baseCommandAR);
+        //TODO: Test linker arugments
+        baseCommandLinker = new ArrayList(Arrays.asList(new String[] {
+        basePath + "lnk2000",
+        "-o",
+        buildPath + File.separator + primaryClassName + ".elf"
+      }));
     } else {
       baseCommandLinker = new ArrayList(Arrays.asList(new String[] {
         basePath + "avr-gcc",
@@ -246,6 +260,13 @@ public class Compiler implements MessageConsumer {
       "-O",
       "-R",
     }));
+    }else if (arch == "c2000") { 
+	//TODO: Figure out object copy
+    baseCommandObjcopy = new ArrayList(Arrays.asList(new String[] {
+      basePath + "msp430-objcopy",
+      "-O",
+      "-R",
+    }));
     } else {
       baseCommandObjcopy = new ArrayList(Arrays.asList(new String[] {
         basePath + "avr-objcopy",
@@ -256,6 +277,8 @@ public class Compiler implements MessageConsumer {
     }
     List commandObjcopy;
     if (arch == "msp430") {
+      //nothing 
+    } if (arch == "c2000") {
       //nothing 
     } else {
         // 5. extract EEPROM data (from EEMEM directive) to .eep file.
@@ -581,6 +604,22 @@ public class Compiler implements MessageConsumer {
           "-DARDUINO=" + Base.REVISION,
           "-DENERGIA=" + Base.EREVISION,
         }));
+    } if (arch == "c2000") {
+    	//as per
+    	//http://mspgcc.sourceforge.net/manual/x1522.html
+    	//TODO: Figure out compiler args....updated needs testing
+        baseCommandCompiler = new ArrayList(Arrays.asList(new String[] {
+          basePath + "cl2000",
+          "-v28",//compile for c28x
+          "-02",//optimize level 2
+          "-mt",//compile for large memory model
+          "-ml",//compile for unified memory model
+          "-g", // include debugging info (so errors include line numbers)
+          //"-mmcu=" + boardPreferences.get("build.mcu"),
+          "-DF_CPU=" + boardPreferences.get("build.f_cpu"),
+          "-DARDUINO=" + Base.REVISION,
+          "-DENERGIA=" + Base.EREVISION
+        }));
     } else {
         baseCommandCompiler = new ArrayList(Arrays.asList(new String[] {
            basePath + "avr-gcc",
@@ -622,6 +661,21 @@ public class Compiler implements MessageConsumer {
         "-DF_CPU=" + boardPreferences.get("build.f_cpu"),
         "-DARDUINO=" + Base.REVISION,
         "-DENERGIA=" + Base.EREVISION,
+      }));
+      } else if (arch == "c2000") {
+    	  //TODO: Figure out compiler args...updated needs testing
+      baseCommandCompiler = new ArrayList(Arrays.asList(new String[] {
+          basePath + "cl2000",
+          "-v28",//compile for c28x
+          "-02",//optimize level 2
+          "-mt",//compile for large memory model
+          "-ml",//compile for unified memory model
+          "-g", // include debugging info (so errors include line numbers)
+          //"-mmcu=" + boardPreferences.get("build.mcu"),
+          "-DF_CPU=" + boardPreferences.get("build.f_cpu"),
+          "-DARDUINO=" + Base.REVISION,
+          "-DENERGIA=" + Base.EREVISION      
+        
       }));
       } else { // default to avr
         baseCommandCompiler = new ArrayList(Arrays.asList(new String[] {
@@ -670,6 +724,20 @@ public class Compiler implements MessageConsumer {
         "-DF_CPU=" + boardPreferences.get("build.f_cpu"),
         "-DARDUINO=" + Base.REVISION,
         "-DENERGIA=" + Base.EREVISION,
+      }));
+    }else if (arch == "c2000") {  
+    	//TODO: Figure out compiler args...updated needs testing
+      baseCommandCompilerCPP = new ArrayList(Arrays.asList(new String[] {
+          basePath + "cl2000",
+          "-v28",//compile for c28x
+          "-02",//optimize level 2
+          "-mt",//compile for large memory model
+          "-ml",//compile for unified memory model
+          "-g", // include debugging info (so errors include line numbers)
+          //"-mmcu=" + boardPreferences.get("build.mcu"),
+          "-DF_CPU=" + boardPreferences.get("build.f_cpu"),
+          "-DARDUINO=" + Base.REVISION,
+          "-DENERGIA=" + Base.EREVISION   
       }));
     } else { // default to avr
       baseCommandCompilerCPP = new ArrayList(Arrays.asList(new String[] {

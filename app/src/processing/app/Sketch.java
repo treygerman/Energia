@@ -25,6 +25,7 @@ package processing.app;
 
 import processing.app.debug.AvrdudeUploader;
 import processing.app.debug.MSP430Uploader;
+import processing.app.debug.C2000Uploader;
 import processing.app.debug.Compiler;
 import processing.app.debug.RunnerException;
 import processing.app.debug.Sizer;
@@ -1707,6 +1708,8 @@ public class Sketch {
     //
     if(Base.getArch() == "msp430"){
     	uploader = new MSP430Uploader();
+    } else if(Base.getArch() == "c2000"){
+    	uploader = new C2000Uploader();
     } else {
     	uploader = new AvrdudeUploader();
     }

@@ -52,6 +52,13 @@ public class Sizer implements MessageConsumer {
         basePath + "msp430-size",
         " "
       };
+    } else if(arch == "c2000") {
+    	//TODO: Figure out this command
+        String basePath = Base.getC2000BasePath();
+        commandSize = new String[] {
+          basePath + "msp430-size",
+          " "
+        };
     } else {
       String basePath = Base.getAvrBasePath();
       commandSize = new String[] {

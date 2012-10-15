@@ -67,6 +67,7 @@ public class Base {
   static {
     archMap.put("arduino", "avr");
     archMap.put("msp430", "msp430");
+    archMap.put("c2000", "c2000");
   }
   static Platform platform;
 
@@ -250,6 +251,8 @@ public class Base {
     String targetLibDir = new String("");
     if(Preferences.get("target").equals("msp430")) 
     	targetLibDir = "hardware/msp430/";
+    if(Preferences.get("target").equals("c2000")) 
+    	targetLibDir = "hardware/c2000/";
     librariesFolder = getContentFile(targetLibDir + "libraries");
     toolsFolder = getContentFile("tools");
 
@@ -1029,6 +1032,8 @@ public class Base {
             	  String targetLibDir = new String("");
             	  if(n.equals("msp430")) 
             		  targetLibDir = "hardware/msp430/";
+            	  if(n.equals("c2000")) 
+            		  targetLibDir = "hardware/c2000/";
             	  librariesFolder = getContentFile(targetLibDir + "libraries");
             	  onArchChanged();
               }
@@ -1575,6 +1580,16 @@ public class Base {
     }
     return path;
   }
+  
+  //TODO: check tools path
+  static public String getC2000BasePath() {
+	    String path = getHardwarePath() + File.separator + "tools" +
+	                  File.separator + "c2000" + File.separator + "bin" + File.separator;
+	    if (Base.isLinux() && !(new File(path)).exists()) {
+	      return "";  // use msp430-gcc and mspdebug in PATH instead of platform version
+	    }
+	    return path;
+	  }
 
 
   static public String getArch() {
@@ -1600,7 +1615,10 @@ public class Base {
       if (getArch() == "msp430") {
         String hwPath = getMSP430BasePath();
         return hwPath;
-      }
+      }else if (getArch() == "c2000") {
+          String hwPath = getC2000BasePath();
+          return hwPath;
+        }
       else {
         return getHardwarePath() + File.separator + "tools" + File.separator
           + getArch() + File.separator + "bin" + File.separator;
